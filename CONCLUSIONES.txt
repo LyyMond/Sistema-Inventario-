@@ -1,0 +1,118 @@
+================================================================================
+CONCLUSIONES: LOGROS OBTENIDOS FRENTE A LOS OBJETIVOS
+Proyecto: Sistema Web de Gestión de Inventario y Control de Soporte Técnico (VEN 9-1-1)
+Sede: Altos Mirandinos
+================================================================================
+
+A continuación, se presentan de forma estructurada y analítica las conclusiones 
+y los logros concretos obtenidos al finalizar el desarrollo del sistema, 
+contrastados de manera directa con cada uno de los objetivos planteados y el 
+impacto esperado en las justificaciones técnica y social del proyecto.
+
+--------------------------------------------------------------------------------
+1. LOGRO DEL OBJETIVO GENERAL
+--------------------------------------------------------------------------------
+Se cumplió satisfactoriamente con el objetivo general mediante el desarrollo, 
+despliegue y validación de una aplicación web local autogestionada (alojada en el 
+servidor local de la sede VEN 9-1-1 Altos Mirandinos). El sistema centraliza la 
+administración de activos físicos y digitaliza todo el flujo de soporte técnico 
+por medio de tickets en una plataforma unificada. Con esto, se supera la 
+dependencia de hojas de cálculo aisladas (Excel) y se dota al centro de comando 
+de una herramienta robusta y escalable que optimiza el flujo de comunicación 
+entre el personal técnico y administrativo.
+
+--------------------------------------------------------------------------------
+2. LOGROS OBTENIDOS FRENTE A LOS OBJETIVOS ESPECÍFICOS
+--------------------------------------------------------------------------------
+
+OBJETIVO ESPECÍFICO 1: Diseñar e implementar un módulo de inventario de bienes 
+nacionales con control de acceso por roles, garantizando la integridad de los datos.
+* Logro técnico: Se diseñó una base de datos relacional en MySQL con una estructura 
+  de tablas normalizada (Perfiles, Usuarios, Inventario, Ubicaciones).
+* Integridad y control: Se implementó un control de acceso por roles estricto en el 
+  backend (Administrador, Técnico, Operador). Las acciones de creación, edición y 
+  eliminación están resguardadas mediante guardias de sesión PHP (`requireRole`). 
+* Validación y seguridad de datos: Para evitar la corrupción de datos y errores 
+  de tipeo (punto crítico de la justificación), el formulario de registro y la 
+  gestión de usuarios aplican validaciones estrictas: la cédula de identidad 
+  admite únicamente caracteres numéricos de hasta 8 dígitos, el nombre y apellido 
+  se limitan a 30 caracteres permitiendo caracteres alfabéticos acentuados, y las 
+  preguntas de seguridad se restringieron a un máximo de 20 caracteres. 
+  Adicionalmente, se estableció una política de seguridad para contraseñas de entre 
+  6 y 12 caracteres que requiere de manera obligatoria al menos una mayúscula, 
+  un número y un carácter especial.
+
+OBJETIVO ESPECÍFICO 2: Desarrollar un módulo de gestión de tickets que automatice 
+la creación, asignación y actualización de solicitudes, reduciendo el tiempo de 
+reporte y ofreciendo consulta de estatus.
+* Logro técnico: Se automatizó el ciclo de vida del ticket ("Inicio" -> "En proceso" 
+  -> "Finalizado"). 
+* Flujo dinámico y guiado: Para evitar errores en la carga, el formulario de 
+  creación de tickets (`ticket_nuevo.php`) se estructuró de forma secuencial. 
+  Primero, el usuario debe seleccionar obligatoriamente una ubicación (sala o 
+  departamento); al hacerlo, se habilita dinámicamente un campo de búsqueda en el 
+  que escribe el código del bien, desplegando un menú de autocompletado interactivo 
+  que muestra exclusivamente los equipos correspondientes a esa sala física. 
+* Control de fallas y sugerencias: Los campos de descripción de falla y de 
+  sugerencias para el soporte técnico se limitaron estrictamente a 100 caracteres 
+  tanto en la interfaz (mediante controles `maxlength`) como en el backend, 
+  evitando truncamientos en la base de datos.
+* Consulta de estatus: Cada usuario dispone de un botón "+ Nuevo Ticket" en su 
+  Inicio (dashboard), y el Operador puede visualizar de forma inmediata el estatus 
+  de todos sus equipos a través de tarjetas Bento y tablas con colores semánticos.
+
+OBJETIVO ESPECÍFICO 3: Construir un módulo de historial y trazabilidad que 
+registre cronológicamente las intervenciones técnicas y genere reportes auditables.
+* Logro técnico: Se diseñó la tabla `Tickets_Historial`, un registro inmutable 
+  que guarda el estado anterior, el estado nuevo, la fecha y el técnico responsable.
+* Auditoría y Reasignación Flexible: Se integró un selector de asignación dentro de 
+  la vista de gestión del técnico, permitiendo que cualquier técnico pueda 
+  finalizar un caso o reasignarlo a otro técnico de la sede cuando sea necesario, 
+  quedando el cambio registrado detalladamente en la auditoría general con el ID 
+  del técnico que operó el cambio.
+* Visualización por Meses: Tanto para administradores como para técnicos, las 
+  pantallas de "Tickets" e "Historial" están estructuradas y divididas por mes y 
+  año mediante un filtro de selección dinámico en la parte superior. Esto facilita 
+  analizar las cargas de soporte mensuales y auditar las hojas de vida de los bienes 
+  institucionales de cara a decisiones de renovación o desincorporación de activos.
+
+--------------------------------------------------------------------------------
+3. IMPACTO DE LOS LOGROS FRENTE A LAS JUSTIFICACIONES
+--------------------------------------------------------------------------------
+
+JUSTIFICACIÓN SOCIAL
+* Para el Administrador de Bienes: Se eliminó el riesgo de pérdida de información 
+  por fallas humanas al sustituir las hojas de cálculo por formularios web 
+  validados y una base de datos segura.
+* Para el Técnico de Soporte: Cuenta con solicitudes estructuradas que detallan la 
+  sala exacta, la descripción del problema (máx. 100 caracteres) e intervenciones 
+  previas, eliminando el desorden de reportes verbales u hojas sueltas.
+* Para el Operador (Usuario Final): Se redujo la incertidumbre al proveerle de 
+  una interfaz donde puede hacer seguimiento del estatus real de su equipo, lo 
+  que minimiza los tiempos de inactividad operativa.
+* Para la Comunidad: La agilización en el soporte técnico interno garantiza que la 
+  tecnología del Centro de Comando VEN 9-1-1 (tales como servidores, sistemas de 
+  vigilancia y equipos de despacho) opere de forma continua y sin interrupciones, 
+  lo que optimiza y acelera la atención y despacho ante emergencias ciudadanas en 
+  los Altos Mirandinos.
+
+JUSTIFICACIÓN TÉCNICA
+* Arquitectura Web Centralizada: Se migró satisfactoriamente el inventario y control 
+  desde Excel a una aplicación web estructurada bajo PHP nativo y MySQL, con estilos 
+  limpios y responsivos implementados en Vanilla CSS (Bento Grid) y dinámicas 
+  interactivas en Vanilla JS.
+* Seguridad de la Información: Se aseguraron los datos mediante contraseñas cifradas 
+  (SHA-256) y un flujo robusto de recuperación de acceso a través de cinco 
+  preguntas de seguridad controladas.
+* Trazabilidad Histórica Completa: Cada bien y ticket cuenta con una cronología de 
+  cambios auditable, permitiendo calcular la frecuencia de fallas de los equipos, 
+  identificar salas críticas y proyectar la vida útil de los activos del centro.
+
+================================================================================
+CONCLUSIÓN GENERAL DEL PROYECTO
+================================================================================
+El desarrollo e implementación de este sistema web representa una mejora 
+significativa en la gestión de recursos de VEN 9-1-1 Sede Altos Mirandinos. Se 
+logró una transición tecnológica exitosa hacia la automatización, proporcionando 
+un entorno seguro, auditable y de fácil acceso que elimina la carga administrativa 
+manual y minimiza los tiempos de respuesta del equipo de soporte técnico.

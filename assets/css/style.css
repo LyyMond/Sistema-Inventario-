@@ -1,0 +1,1072 @@
+/**
+ * assets/css/style.css
+ * =========================================================
+ * Hoja de estilos principal del Sistema de Tickets.
+ * Diseño Bento Grid con modo claro/oscuro.
+ * Paleta institucional: Verde Grama, Rojo, Blanco.
+ * Sin dependencias externas — CSS puro vanilla.
+ * =========================================================
+ */
+
+/* =========================================================
+   1. VARIABLES CSS — Tokens de diseño
+   Modo claro (defecto) y modo oscuro via [data-theme="dark"]
+   ========================================================= */
+:root {
+    /* Paleta institucional */
+    --verde-grama:     #b83a24; /* Red-orange primary accent */
+    --verde-hover:     #9c2e1b;
+    --verde-light:     #fef2f2;
+    --verde-mid:       #b83a24;
+    --rojo:            #b83a24;
+    --rojo-hover:      #9c2e1b;
+    --rojo-light:      #fdf2f2;
+    --blanco:          #ffffff;
+
+    /* Modo Claro */
+    --bg-page:         #f1f5f9;
+    --bg-card:         #ffffff;
+    --bg-card-alt:     #f8fafc;
+    --bg-navbar:       #0d5661; /* Brand Teal */
+    --bg-footer:       #0d5661;
+    --text-primary:    #1e293b;
+    --text-secondary:  #475569;
+    --text-muted:      #64748b;
+    --text-navbar:     #ffffff;
+    --border-color:    #cbd5e1;
+    --border-focus:    #0d5661;
+    --shadow-sm:       0 2px 8px rgba(13,86,97,0.06);
+    --shadow-md:       0 4px 20px rgba(13,86,97,0.08);
+    --shadow-lg:       0 8px 40px rgba(13,86,97,0.12);
+    --input-bg:        #ffffff;
+    --table-header:    #f8fafc;
+    --table-row-alt:   #f8fafc;
+    --table-row-hover: #f1f5f9;
+    --badge-bg:        #f1f5f9;
+    --btn-shadow:      rgba(184,58,36,0.3);
+    --focus-shadow:    rgba(13,86,97,0.15);
+    --blue-accent:     #1565c0;
+
+    /* Tipografía */
+    --font-sans:  'Segoe UI', system-ui, -apple-system, sans-serif;
+    --radius-sm:  6px;
+    --radius-md:  12px;
+    --radius-lg:  18px;
+    --transition: 0.25s ease;
+}
+
+/* Modo Oscuro (un poco más claro/menos profundo según solicitud) */
+[data-theme="dark"] {
+    --bg-page:         #243042; /* Lighter slate blue-gray background */
+    --bg-card:         #2f3e54; /* Lighter slate card bg */
+    --bg-card-alt:     #3b4c66;
+    --bg-navbar:       #0b4c57; /* adjusted brand teal for dark mode */
+    --bg-footer:       #243042;
+    --text-primary:    #f8fafc;
+    --text-secondary:  #cbd5e1;
+    --text-muted:      #94a3b8;
+    --text-navbar:     #f8fafc;
+    --border-color:    #435570;
+    --border-focus:    #0d9488;
+    --shadow-sm:       0 2px 8px rgba(0,0,0,0.25);
+    --shadow-md:       0 4px 20px rgba(0,0,0,0.35);
+    --shadow-lg:       0 8px 40px rgba(0,0,0,0.45);
+    --input-bg:        #2f3e54;
+    --table-header:    #3b4c66;
+    --table-row-alt:   #243143;
+    --table-row-hover: #3b4c66;
+    --badge-bg:        #3b4c66;
+    --verde-grama:     #df4b33; /* Lighter red-orange accent for dark mode */
+    --verde-hover:     #f0644d;
+    --verde-light:     #3e1815; /* Dark red background for alerts */
+    --rojo:            #df4b33;
+    --rojo-hover:      #f0644d;
+    --rojo-light:      #3e1815;
+    --blanco:          #2f3e54;
+    --btn-shadow:      rgba(223,79,51,0.3);
+    --focus-shadow:    rgba(13,148,136,0.15);
+    --blue-accent:     #64b5f6;
+}
+
+/* =========================================================
+   2. RESET Y BASE
+   ========================================================= */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+}
+
+body {
+    font-family: var(--font-sans);
+    background: var(--bg-page);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    transition: background var(--transition), color var(--transition);
+}
+
+a {
+    color: var(--verde-grama);
+    text-decoration: none;
+    transition: color var(--transition);
+}
+a:hover { color: var(--verde-hover); }
+
+img { max-width: 100%; }
+
+/* =========================================================
+   3. NAVBAR
+   ========================================================= */
+.navbar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0 1.5rem;
+    height: 64px;
+    background: var(--bg-navbar);
+    color: var(--text-navbar);
+    box-shadow: var(--shadow-md);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    transition: background var(--transition);
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--text-navbar);
+    white-space: nowrap;
+}
+
+.brand-icon {
+    width: 28px;
+    height: 28px;
+    color: #81c784;
+}
+
+.brand-text { letter-spacing: 0.02em; }
+
+.navbar-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    flex: 1;
+    margin-left: 1rem;
+}
+
+.nav-link {
+    padding: 0.4rem 0.9rem;
+    border-radius: var(--radius-sm);
+    color: rgba(255,255,255,0.85);
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: background var(--transition), color var(--transition);
+}
+.nav-link:hover,
+.nav-link.active {
+    background: rgba(255,255,255,0.15);
+    color: #ffffff;
+}
+
+.navbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-left: auto;
+}
+
+.user-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.85);
+}
+
+/* =========================================================
+   4. ROLE PILLS
+   ========================================================= */
+.role-pill {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 99px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+.role-administrador { background: var(--verde-grama); color: #fff; }
+.role-tecnico       { background: var(--bg-navbar); color: #fff; }
+.role-operador      { background: #5a7b8c; color: #fff; }
+
+/* =========================================================
+   5. BOTÓN DE TEMA
+   ========================================================= */
+.theme-btn {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: var(--radius-sm);
+    color: #ffffff;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background var(--transition);
+}
+.theme-btn:hover { background: rgba(255,255,255,0.22); }
+
+.theme-icon {
+    width: 18px;
+    height: 18px;
+}
+.hidden { display: none !important; }
+
+/* =========================================================
+   6. BOTONES
+   ========================================================= */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.55rem 1.2rem;
+    border-radius: var(--radius-sm);
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all var(--transition);
+    line-height: 1;
+}
+.btn:active { transform: scale(0.97); }
+
+.btn-primary {
+    background: var(--verde-grama);
+    color: #fff;
+}
+.btn-primary:hover {
+    background: var(--verde-hover);
+    color: #fff;
+    box-shadow: 0 4px 12px var(--btn-shadow);
+}
+
+.btn-danger {
+    background: var(--rojo);
+    color: #fff;
+}
+.btn-danger:hover {
+    background: var(--rojo-hover);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(198,40,40,0.35);
+}
+
+.btn-secondary {
+    background: var(--bg-card-alt);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+.btn-secondary:hover {
+    background: var(--border-color);
+    color: var(--text-primary);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1.5px solid var(--verde-grama);
+    color: var(--verde-grama);
+}
+.btn-outline:hover {
+    background: var(--verde-grama);
+    color: #fff;
+}
+
+.btn-sm { padding: 0.35rem 0.8rem; font-size: 0.8rem; }
+.btn-lg { padding: 0.75rem 1.6rem; font-size: 1rem; }
+.btn-block { width: 100%; justify-content: center; }
+
+/* =========================================================
+   7. MAIN CONTAINER y BENTO GRID
+   ========================================================= */
+.main-container {
+    flex: 1;
+    padding: 1.5rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* Bento Grid — contenedor principal de paneles */
+.bento-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+}
+
+/* Grid de 2 columnas explícito */
+.bento-grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+}
+
+/* Grid de 3 columnas */
+.bento-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+}
+
+/* Tarjeta Bento — el bloque base */
+.bento-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow var(--transition), background var(--transition), border-color var(--transition);
+}
+
+.bento-card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+/* Card que ocupa 2 columnas */
+.bento-span-2 { grid-column: span 2; }
+.bento-span-3 { grid-column: span 3; }
+
+.card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.card-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.card-icon {
+    width: 20px;
+    height: 20px;
+    color: var(--verde-grama);
+}
+
+/* Tarjetas de estadísticas (KPI) */
+.stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--verde-grama);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.stat-card.red::before   { background: var(--rojo); }
+.stat-card.green::before { background: var(--verde-grama); }
+.stat-card.blue::before  { background: var(--blue-accent); }
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--verde-grama);
+    line-height: 1;
+    margin: 0.5rem 0;
+}
+.stat-card.red .stat-number   { color: var(--rojo); }
+.stat-card.blue .stat-number  { color: var(--blue-accent); }
+
+.stat-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+/* =========================================================
+   8. PÁGINA DE LOGIN / REGISTRO
+   ========================================================= */
+.login-page {
+    min-height: 100vh;
+    background: var(--bg-page);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.login-box {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    width: 100%;
+    max-width: 480px;
+    overflow: hidden;
+    animation: slideUp 0.4s ease;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.login-logo {
+    background: var(--bg-navbar);
+    padding: 2rem;
+    text-align: center;
+    color: #fff;
+}
+
+.login-logo h1 {
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin-top: 0.5rem;
+}
+
+.login-logo p {
+    font-size: 0.82rem;
+    opacity: 0.8;
+    margin-top: 0.25rem;
+}
+
+.logo-svg {
+    width: 56px;
+    height: 56px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 50%;
+    padding: 12px;
+    margin: 0 auto 0.5rem;
+    display: block;
+}
+
+/* Pestañas del registro */
+.tab-bar {
+    display: flex;
+    border-bottom: 2px solid var(--border-color);
+    background: var(--bg-card-alt);
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 0.85rem;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    transition: all var(--transition);
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+}
+.tab-btn.active {
+    color: var(--verde-grama);
+    border-bottom-color: var(--verde-grama);
+    background: var(--bg-card);
+}
+.tab-btn:hover:not(.active) {
+    color: var(--text-primary);
+    background: var(--border-color);
+}
+
+.tab-content { display: none; padding: 1.75rem; }
+.tab-content.active { display: block; }
+
+.login-form-body { padding: 1.75rem; }
+
+/* =========================================================
+   9. FORMULARIOS
+   ========================================================= */
+.form-group {
+    margin-bottom: 1.1rem;
+}
+
+.form-label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.02em;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.65rem 0.9rem;
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    background: var(--input-bg);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    transition: border-color var(--transition), box-shadow var(--transition);
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 3px var(--focus-shadow);
+}
+
+.form-control::placeholder { color: var(--text-muted); }
+
+select.form-control {
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234a6a4a' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.9rem center;
+    padding-right: 2.5rem;
+}
+
+.form-hint {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 0.3rem;
+}
+
+/* Dropdown con búsqueda personalizado */
+.searchable-dropdown {
+    position: relative;
+}
+.searchable-dropdown .dropdown-toggle {
+    width: 100%;
+    text-align: left;
+    padding: 0.65rem 2.5rem 0.65rem 0.9rem;
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    background: var(--input-bg);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234a6a4a' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.9rem center;
+    transition: border-color var(--transition);
+}
+.searchable-dropdown .dropdown-toggle:focus,
+.searchable-dropdown.open .dropdown-toggle {
+    border-color: var(--border-focus);
+    outline: none;
+    box-shadow: 0 0 0 3px var(--focus-shadow);
+}
+.searchable-dropdown .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0; right: 0;
+    background: var(--bg-card);
+    border: 1.5px solid var(--border-focus);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-md);
+    z-index: 50;
+    max-height: 260px;
+    overflow: hidden;
+    flex-direction: column;
+}
+.searchable-dropdown.open .dropdown-menu { display: flex; }
+.dropdown-search {
+    padding: 0.6rem 0.8rem;
+    border: none;
+    border-bottom: 1px solid var(--border-color);
+    background: var(--input-bg);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    width: 100%;
+}
+.dropdown-search:focus { outline: none; }
+.dropdown-list {
+    overflow-y: auto;
+    flex: 1;
+    list-style: none;
+}
+.dropdown-list li {
+    padding: 0.6rem 0.9rem;
+    cursor: pointer;
+    font-size: 0.875rem;
+    transition: background var(--transition);
+    border-bottom: 1px solid var(--border-color);
+}
+.dropdown-list li:last-child { border-bottom: none; }
+.dropdown-list li:hover,
+.dropdown-list li.selected { background: var(--verde-light); color: var(--verde-hover); }
+.dropdown-list li.no-results { color: var(--text-muted); cursor: default; }
+.dropdown-list li.no-results:hover { background: transparent; }
+
+/* =========================================================
+   10. ALERTAS / MENSAJES
+   ========================================================= */
+.alert {
+    padding: 0.85rem 1.1rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    border: 1px solid transparent;
+}
+.alert-success {
+    background: #e8f5e9;
+    color: #2e7d32;
+    border-color: #c8e6c9;
+}
+.alert-danger {
+    background: #fdf2f2;
+    color: #9c2e1b;
+    border-color: #ef9a9a;
+}
+.alert-info {
+    background: #e3f2fd;
+    color: #1565c0;
+    border-color: #90caf9;
+}
+[data-theme="dark"] .alert-success {
+    background: #0f2a0f;
+    color: #81c784;
+    border-color: #1b5e20;
+}
+[data-theme="dark"] .alert-danger {
+    background: #2d1010;
+    color: #ef9a9a;
+    border-color: #b71c1c;
+}
+[data-theme="dark"] .alert-info {
+    background: #0d2a4a;
+    color: #90caf9;
+    border-color: #1565c0;
+}
+
+/* =========================================================
+   11. TABLAS
+   ========================================================= */
+.table-wrapper {
+    overflow-x: auto;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+}
+
+.data-table thead th {
+    background: var(--table-header);
+    color: var(--text-secondary);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.75rem;
+    padding: 0.85rem 1rem;
+    text-align: left;
+    border-bottom: 2px solid var(--border-color);
+    white-space: nowrap;
+}
+
+.data-table tbody tr {
+    border-bottom: 1px solid var(--border-color);
+    transition: background var(--transition);
+}
+
+.data-table tbody tr:nth-child(even) {
+    background: var(--table-row-alt);
+}
+
+.data-table tbody tr:hover {
+    background: var(--table-row-hover);
+}
+
+.data-table td {
+    padding: 0.85rem 1rem;
+    vertical-align: middle;
+    color: var(--text-primary);
+}
+
+.table-actions {
+    display: flex;
+    gap: 0.4rem;
+    align-items: center;
+}
+
+/* =========================================================
+   12. BADGES DE ESTADO Y PRIORIDAD
+   ========================================================= */
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.65rem;
+    border-radius: 99px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+/* Estados del ticket */
+.badge-inicio      { background: #e3f2fd; color: #1565c0; }
+.badge-en-proceso  { background: #fff8e1; color: #e65100; }
+.badge-finalizado  { background: #e8f5e9; color: #2e7d32; }
+
+/* Prioridades */
+.badge-baja    { background: #e8f5e9; color: #2e7d32; }
+.badge-media   { background: #fff8e1; color: #f57f17; }
+.badge-urgente { background: #fdf2f2; color: #b83a24; }
+
+[data-theme="dark"] .badge-inicio      { background: #0d2a4a; color: #90caf9; }
+[data-theme="dark"] .badge-en-proceso  { background: #2a1e00; color: #ffb300; }
+[data-theme="dark"] .badge-finalizado  { background: #0f2a0f; color: #81c784; }
+[data-theme="dark"] .badge-baja        { background: #0f2a0f; color: #81c784; }
+[data-theme="dark"] .badge-media       { background: #2a1e00; color: #ffb300; }
+[data-theme="dark"] .badge-urgente     { background: #3a1c18; color: #ff8a7a; }
+
+/* =========================================================
+   13. PAGE HEADER (título de sección)
+   ========================================================= */
+.page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    gap: 1rem;
+}
+
+.page-header h1 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+.page-header p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 0.2rem;
+}
+
+/* =========================================================
+   14. DIVIDER y HELPERS
+   ========================================================= */
+.divider {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 1rem 0;
+}
+
+.text-muted   { color: var(--text-muted); }
+.text-success { color: var(--verde-grama); }
+.text-danger  { color: var(--rojo); }
+.text-center  { text-align: center; }
+.mt-1 { margin-top: 0.5rem; }
+.mt-2 { margin-top: 1rem; }
+.mb-1 { margin-bottom: 0.5rem; }
+.mb-2 { margin-bottom: 1rem; }
+.flex { display: flex; }
+.flex-center { display: flex; align-items: center; justify-content: center; }
+.gap-1 { gap: 0.5rem; }
+.gap-2 { gap: 1rem; }
+
+/* Barra de búsqueda */
+.search-bar {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+.search-bar .form-control { max-width: 320px; }
+
+/* =========================================================
+   15. FOOTER
+   ========================================================= */
+.site-footer {
+    background: var(--bg-footer);
+    color: rgba(255,255,255,0.7);
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.78rem;
+    margin-top: auto;
+    transition: background var(--transition);
+}
+
+/* =========================================================
+   16. RESPONSIVE
+   ========================================================= */
+@media (max-width: 900px) {
+    .bento-grid-3 { grid-template-columns: repeat(2, 1fr); }
+    .bento-span-3 { grid-column: span 2; }
+}
+
+@media (max-width: 640px) {
+    .navbar { padding: 0 1rem; height: auto; flex-wrap: wrap; padding-block: 0.75rem; gap: 0.5rem; }
+    .navbar-nav { width: 100%; order: 3; overflow-x: auto; padding-bottom: 0.25rem; }
+    .bento-grid-2, .bento-grid-3 { grid-template-columns: 1fr; }
+    .bento-span-2, .bento-span-3 { grid-column: span 1; }
+    .main-container { padding: 1rem; }
+    .page-header { flex-direction: column; align-items: flex-start; }
+    .login-box { max-width: 100%; }
+}
+
+/* =========================================================
+   17. ANIMATIONS
+   ========================================================= */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+.bento-card, .stat-card {
+    animation: fadeIn 0.35s ease;
+}
+
+/* Highlight row on confirm delete */
+.row-danger { background: var(--rojo-light) !important; }
+
+/* Skeleton loading placeholder */
+.skeleton {
+    background: linear-gradient(90deg, var(--border-color) 25%, var(--bg-card-alt) 50%, var(--border-color) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: var(--radius-sm);
+    height: 1rem;
+}
+@keyframes shimmer {
+    0%   { background-position: -200% 0; }
+    100% { background-position:  200% 0; }
+}
+
+/* Input de búsqueda en tabla */
+.table-search {
+    margin-bottom: 0.75rem;
+}
+
+/* Modal simple para confirmaciones */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+}
+.modal-overlay.active { display: flex; }
+.modal-box {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    max-width: 420px;
+    width: 90%;
+    box-shadow: var(--shadow-lg);
+    animation: slideUp 0.3s ease;
+}
+.modal-box h3 { margin-bottom: 0.75rem; color: var(--text-primary); }
+.modal-box p  { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem; }
+.modal-actions { display: flex; gap: 0.75rem; justify-content: flex-end; }
+
+/* =========================================================
+   18. REGISTRO HORIZONTAL (NO-SCROLL) Y RECUPERACIÓN
+   ========================================================= */
+.login-box.register-box-wide {
+    max-width: 1040px;
+    width: 100%;
+    transition: max-width var(--transition);
+}
+
+.register-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+.register-grid-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.register-footer-actions {
+    grid-column: span 2;
+    margin-top: 0.35rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+/* Modificar espaciados en modo horizontal para optimizar espacio (Evitar Scroll) */
+.register-box-wide .tab-content {
+    padding: 0.75rem 2rem 1rem;
+}
+
+.register-box-wide .form-group {
+    margin-bottom: 0.55rem;
+}
+
+.register-box-wide .form-label {
+    font-size: 0.78rem;
+    margin-bottom: 0.15rem;
+}
+
+.register-box-wide .form-control {
+    padding: 0.45rem 0.75rem;
+    font-size: 0.85rem;
+}
+
+.register-box-wide .login-logo {
+    padding: 0.85rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.register-box-wide .logo-svg {
+    margin: 0;
+    width: 44px;
+    height: 44px;
+    padding: 8px;
+}
+
+.register-box-wide .login-logo h1 {
+    font-size: 1.3rem;
+    margin-top: 0;
+}
+
+.register-box-wide .login-logo p {
+    display: none; /* Ocultar subtítulo largo para ahorrar espacio */
+}
+
+.register-box-wide .tab-bar .tab-btn {
+    padding: 0.65rem;
+    font-size: 0.8rem;
+}
+
+.register-box-wide .divider {
+    margin: 0.4rem 0;
+}
+
+/* Ajustes adaptativos */
+@media (max-width: 768px) {
+    .register-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    .register-footer-actions {
+        grid-column: span 1;
+    }
+    .login-box.register-box-wide {
+        max-width: 480px;
+    }
+    .register-box-wide .tab-content {
+        padding: 1.25rem 1.5rem;
+    }
+    .register-box-wide .form-group {
+        margin-bottom: 0.8rem;
+    }
+}
+
+/* Botón de tema ancho con texto y legibilidad mejorada */
+.theme-toggle-btn {
+    background: rgba(0,0,0,0.25);
+    border: 1.5px solid rgba(255,255,255,0.3);
+    color: #ffffff !important; /* Blanco para máxima legibilidad y sobriedad en la cabecera */
+    padding: 0.65rem 1.4rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition);
+    height: auto;
+    width: auto;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+.theme-toggle-btn:hover {
+    background: rgba(255,255,255,0.15);
+    border-color: #ffffff;
+    box-shadow: 0 4px 10px rgba(255,255,255,0.25);
+}
+.theme-toggle-btn .theme-icon {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+}
+
+/* =========================================================
+   13. CONTENEDOR Y BOTÓN PARA MOSTRAR/OCULTAR CONTRASEÑA
+   ========================================================= */
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+.password-wrapper .form-control {
+    padding-right: 2.75rem !important; /* Espacio para que el botón no solape el texto */
+}
+.password-toggle-btn {
+    position: absolute;
+    right: 0.5rem;
+    background: none;
+    border: none;
+    padding: 0.35rem;
+    cursor: pointer;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+    transition: var(--transition);
+    z-index: 10;
+}
+.password-toggle-btn:hover {
+    color: var(--text-primary);
+    background-color: var(--table-row-hover);
+}
+.password-toggle-btn svg {
+    width: 20px;
+    height: 20px;
+}
+

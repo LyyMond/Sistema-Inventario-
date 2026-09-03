@@ -1,0 +1,66 @@
+SISTEMA DE GESTIÓN DE INVENTARIO Y TICKETS
+==========================================
+
+Este proyecto es un sistema local de gestión de inventarios y tickets de soporte técnico.
+Está diseñado utilizando PHP nativo, MySQL y Vanilla JS, sin dependencias externas, ideal
+para ejecutarse en entornos locales como Laragon, XAMPP o WAMP.
+
+ESTRUCTURA DEL PROYECTO
+-----------------------
+/Sistema-ticket
+├── /admin                  # Módulo del Administrador
+│   ├── dashboard.php       # Panel de control, KPIs
+│   ├── inventario*.php     # CRUD de bienes institucionales
+│   └── usuarios*.php       # CRUD de usuarios y roles
+├── /operador               # Módulo del Operador
+│   ├── dashboard.php       # Panel del operador (estadísticas propias)
+│   ├── tickets.php         # Ver mis tickets reportados
+│   ├── ticket_nuevo.php    # Crear solicitud de soporte
+│   └── ticket_historial.php# Ver historial de cambios de un ticket
+├── /tecnico                # Módulo del Técnico
+│   ├── dashboard.php       # Panel técnico, tickets sin asignar
+│   ├── tickets.php         # Ver todos los tickets del sistema
+│   ├── ticket_estado.php   # Tomar ticket y cambiar estados
+│   └── ticket_historial.php# Timeline de cambios de tickets
+├── /config                 # Configuración centralizada
+│   ├── config.php          # Código admin, constantes, error reporting
+│   └── db.php              # Conexión a la base de datos MySQL
+├── /includes               # Componentes compartidos
+│   ├── auth.php            # Guardias de sesión y roles
+│   ├── header.php          # Cabecera HTML, navbar
+│   └── footer.php          # Cierre HTML, scripts base
+├── /assets                 # Recursos estáticos
+│   ├── /css/style.css      # Sistema de diseño, Bento grid, Dark mode
+│   └── /js/app.js          # Lógica frontend (modales, tooltips, tema)
+├── /sql                    # Base de datos
+│   └── gestion_bienes.sql  # Script de creación de tablas
+├── index.php               # Login y Registro (Punto de entrada)
+├── logout.php              # Destrucción de sesión
+└── ESTRUCTURA.txt          # Este archivo
+
+
+INSTRUCCIONES DE DESPLIEGUE (Laragon)
+-------------------------------------
+1. Mover la carpeta a Laragon:
+   - Copia la carpeta `Sistema-ticket` dentro de la carpeta `www` de tu instalación de Laragon
+     (usualmente `C:\laragon\www\Sistema-ticket`).
+
+2. Base de datos:
+   - Abre HeidiSQL (botón "Base de datos" en Laragon) o phpMyAdmin.
+   - Crea una nueva base de datos llamada: `gestion_bienes`
+   - Selecciona la base de datos recién creada y ejecuta el script SQL ubicado en:
+     `Sistema-ticket/sql/gestion_bienes.sql`
+
+3. Configurar conexión:
+   - Abre `config/db.php` y asegúrate de que las credenciales coincidan con tu servidor
+     local (por defecto Laragon usa usuario 'root' y contraseña vacía '').
+
+4. Ejecución:
+   - Inicia los servicios de Apache y MySQL en Laragon.
+   - En tu navegador, ingresa a: http://localhost/Sistema-ticket
+
+5. Primeros pasos:
+   - Crea un usuario "Administrador" usando el código secreto definido en `config.php`
+     (por defecto es: INST2024ADMIN).
+   - Inicia sesión y registra algunos bienes en el inventario.
+   - Crea usuarios con roles de Operador y Técnico para probar el flujo de los tickets.
