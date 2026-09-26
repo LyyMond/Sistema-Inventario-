@@ -193,19 +193,12 @@ if ($action === 'register') {
                     $stmtT->close();
                 }
 
-                // Iniciar sesión automáticamente
-                session_regenerate_id(true);
-                $_SESSION['cedula'] = $cedula;
-                $_SESSION['nombre'] = $nombre;
-                $_SESSION['rol']    = $rol;
-                if ($rol === 'Tecnico') {
-                    $_SESSION['cit'] = $cit;
-                }
-
-                // Redirigir al dashboard según el rol
-                require_once __DIR__ . '/includes/auth.php';
-                header('Location: ' . dashboardUrl());
-                exit;
+                // Notificar registro exitoso para que inicie sesión manualmente
+                $success = '¡Registro exitoso! Por favor ingresa tus datos para iniciar sesión.';
+                $action  = '';
+                $cedula  = '';
+                $nombre  = '';
+                $rol     = '';
             }
             $stmtCheck->close();
         }

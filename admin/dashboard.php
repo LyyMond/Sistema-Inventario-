@@ -114,7 +114,7 @@ require_once __DIR__ . '/../includes/header.php';
                     <td style="padding: 0.85rem 1rem; font-size: 0.85rem;">
                         <span style="border-radius: 9999px; padding: 0.15rem 0.65rem; font-size: 0.72rem; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; text-transform: none; <?= $badgeStyle ?>"><?= $estadoStr ?></span>
                     </td>
-                    <td style="padding: 0.85rem 1rem; color: var(--text-secondary); font-size: 0.85rem;"><?= date('Y-m-d', strtotime($t['Cre_Tic'])) ?></td>
+                    <td style="padding: 0.85rem 1rem; color: var(--text-secondary); font-size: 0.85rem;"><?= date('d/m/Y', strtotime($t['Cre_Tic'])) ?></td>
                     <td style="padding: 0.85rem 1rem; color: var(--text-secondary); font-size: 0.85rem;"><?= htmlspecialchars($t['Solicitante'] ?? '—') ?></td>
                 </tr>
                 <?php endwhile; ?>
